@@ -28,7 +28,6 @@ class App extends Component {
       endHour
     } = this.state;
 
-
     if (startDate !== "" && endDate !== "") {
       if (startDay > endDay) {
         alert("Set start date to a day before or day of.");
@@ -184,7 +183,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
     // return this.renderFullApp();
     // return this.setHours();
     return this.renderSelectionOrApp();

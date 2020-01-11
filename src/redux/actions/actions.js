@@ -1,7 +1,7 @@
 const addPiece = object => {
   return {
     type: "ADD",
-    payload: object
+    payload: { color: object.color, value: object.value }
   };
 };
 
