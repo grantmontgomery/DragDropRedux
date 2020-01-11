@@ -1,0 +1,80 @@
+.newpart-wrapper {
+  width: 250px;
+  margin-right: auto;
+  margin-left: auto;
+  height: 125px;
+  overflow-y: hidden;
+  box-shadow: 0 5px 6px 1px rgba(150, 150, 150, 0.5);
+  overflow: hidden;
+  z-index: 1001;
+}
+
+.newpart-wrapper input {
+  z-index: 1001;
+}
+
+.color-picker-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  float: right;
+  bottom: 10px;
+  right: 10px;
+  position: relative;
+  transition: 400ms ease-in;
+}
+
+.color-picker {
+  cursor: pointer;
+  border-radius: 22px;
+  filter: drop-shadow(22px, 22px, 22px rgb(30, 30, 30));
+  margin-left: 5px;
+  text-align: center;
+  box-shadow: 0 1.5px 2px 1px rgba(100, 100, 100, 0.5);
+  margin-right: 5px;
+  height: 22px;
+  width: 22px;
+}
+
+.exit-button {
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+  float: right;
+  right: 0;
+  border-style: none;
+  border-radius: 25px;
+  background: red;
+  color: white;
+}
+
+.red {
+  background: rgb(233, 53, 53);
+}
+
+.orange {
+  background: rgb(255, 187, 0);
+}
+
+.green {
+  background: rgb(1, 192, 87);
+}
+
+.blue {
+  background: rgb(0, 162, 255);
+}
+
+.purple {
+  background: rgb(169, 43, 241);
+}
+
+.black {
+  background: rgb(30, 30, 30);
+}
+
+.create-button {
+  position: relative;
+  bottom: -20px;
+  right: 5px;
+  float: left;
+  left: 180px;
+}

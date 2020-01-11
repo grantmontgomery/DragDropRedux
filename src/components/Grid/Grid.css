@@ -1,0 +1,57 @@
+.grid-wrapper {
+  height: 1000px;
+  width: 1000px;
+  border: 1px solid black;
+  margin: 0;
+  float: right;
+  margin: 0;
+  position: absolute;
+  right: 200px;
+  overflow: scroll;
+  z-index: -1;
+}
+
+.date-header {
+  grid-area: header;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: left;
+  padding: 0;
+}
+
+.date-hour {
+  width: auto;
+  height: auto;
+  grid-area: subheaders;
+}
+
+.grid-slider {
+  height: 1000px;
+  position: relative;
+  display: grid;
+  grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+  left: 0;
+}
+
+.hours-wrapper {
+  position: relative;
+  width: 200px;
+  height: 75px;
+  padding: 0;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  top: 20px;
+  display: inline-block;
+}
+
+.hours-wrapper:first-child {
+  margin-left: 100px;
+}
+.hours-wrapper:last-child {
+  margin-right: 100px;
+}
+
+.hours {
+}

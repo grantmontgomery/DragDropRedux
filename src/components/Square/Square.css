@@ -1,0 +1,16 @@
+.square-wrapper {
+  border-left: solid 1px rgb(240, 240, 240);
+  border-right: solid 1px rgb(240, 240, 240);
+  border-bottom: solid 1px rgb(250, 250, 250);
+  border-top: solid 1px rgb(250, 250, 250);
+  height: auto;
+  text-align: center;
+  width: auto;
+  position: relative;
+}
+
+.square {
+  text-align: center;
+  height: 50px;
+  width: 50px;
+}
