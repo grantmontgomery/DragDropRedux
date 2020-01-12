@@ -1,5 +1,25 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
+import { useSelector } from "react-redux";
 import "./Piece.css";
+import { useEffect } from "react";
+
+const Piece = props => {
+  let [isdragging, changeDragging] = useState(false);
+  let [isMoving, changeMoving] = useState(false);
+  let [originalX, changeOrigX] = useState(0);
+  let [originalY, changeOrigY] = useState(0);
+  let [translateX, changeTransX] = useState(0);
+  let [translateY, changeTransY] = useState(0);
+  let [lastTranslateX, changeLastTransX] = useState(0);
+  let [lastTranlsateY, changeLastTransY] = useState(0);
+  let [draggingElement, setDraggingElem] = useState(null);
+  let [droppableElement, setDroppable] = useState(null);
+
+  
+
+  useEffect(() => window.removeEventListener("mousemove", this.handleMouseMove);
+  window.removeEventListener("mouseup", this.handleMouseUp);)
+};
 
 class Piece extends Component {
   constructor(props) {
@@ -52,12 +72,20 @@ class Piece extends Component {
 
   handleMouseUp = () => {
     const { droppable, draggingElement } = this.state;
+    const pieces = useSelector(state => state.pieceTrackerReducer);
     window.removeEventListener("mousemove", this.handleMouseMove);
     window.removeEventListener("mouseup", this.handleMouseUp);
     if (droppable.className !== "square-wrapper" || droppable === null) {
       const list = document.getElementById("list-wrapper");
       list.append(draggingElement);
     } else {
+      for (let i = 0; i < pieces.length; i++) {
+        if (draggingElement === pieces[i]) {
+          droppable.className === "square-wrapper"
+            ? (pieces[i]["location"] = "grid")
+            : (pieces[i]["location"] = "list");
+        }
+      }
       droppable.append(draggingElement);
     }
     this.setState({

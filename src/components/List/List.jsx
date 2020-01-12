@@ -40,13 +40,15 @@ const List = props => {
         </button>
       </div>
       <TransitionGroup>{renderNewInput(newInput)}</TransitionGroup>
-      {pieces.map(piece => (
-        <Piece
-          key={Math.floor(Math.random() * Math.floor(100))}
-          color={piece.color}
-          value={piece.value}
-        ></Piece>
-      ))}
+      {pieces
+        .filter(piece => piece.location === "list")
+        .map(piece => (
+          <Piece
+            key={Math.floor(Math.random() * Math.floor(100))}
+            color={piece.color}
+            value={piece.value}
+          ></Piece>
+        ))}
     </div>
   );
 };

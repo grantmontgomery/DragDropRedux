@@ -7,8 +7,8 @@ import { CheckMark } from "../Icons/checkmark";
 import "./NewPart.css";
 
 const NewPart = props => {
-  const [input, handleUpdate] = useState("");
-  const [color, changeFunc] = useState("(233, 53, 53)");
+  let [input, handleUpdate] = useState("");
+  let [color, changeFunc] = useState("(233, 53, 53)");
   const { handleClick, newInput } = props;
   const { addPiece } = actions;
   const dispatch = useDispatch();
