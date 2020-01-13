@@ -46,7 +46,7 @@ const Piece = props => {
     } else {
       droppableElement.append(draggingElement);
     }
-    setState(state => ({ ...state, isDragging: false }));
+    setState({ ...state, isDragging: false });
     // setState({
     //   isDragging: false,
     //   isMoving: false,
@@ -62,25 +62,26 @@ const Piece = props => {
   };
 
   useEffect(() => {
-    // if (state.isDragging) {
-    //   window.addEventListener("mousemove", handleMouseMove);
-    //   window.addEventListener("mouseup", handleMouseUp);
-    // } else {
-    //   window.removeEventListener("mousemove", handleMouseMove);
-    //   window.removeEventListener("mouseup", handleMouseUp);
-    //   setState(state => ({
-    //     ...state,
-    //     isMoving: false,
-    //     originalX: 0,
-    //     originalY: 0,
-    //     translateX: 0,
-    //     translateY: 0,
-    //     lastTranslateY: 0,
-    //     lastTranslateX: 0,
-    //     draggingElement: null,
-    //     droppableElement: null
-    //   }));
-  });
+    if (state.isDragging) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    } else {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      setState(state => ({
+        ...state,
+        isMoving: false,
+        originalX: 0,
+        originalY: 0,
+        translateX: 0,
+        translateY: 0,
+        lastTranslateY: 0,
+        lastTranslateX: 0,
+        draggingElement: null,
+        droppableElement: null
+      }));
+    }
+  }, [state.isDragging]);
   const handleMouseDown = ({ clientX, clientY, target }) => {
     // window.addEventListener("mousemove", handleMouseMove);
     // window.addEventListener("mouseup", handleMouseUp);
@@ -92,14 +93,14 @@ const Piece = props => {
     console.log(elemBelow);
     console.log(elemBelow.className);
 
-    setState(state => ({
+    setState({
       ...state,
       droppableElement: elemBelow,
       draggingElement: target,
       isDragging: true,
       originalX: clientX,
       originalY: clientY
-    }));
+    });
   };
 
   const isDragging = () => {
