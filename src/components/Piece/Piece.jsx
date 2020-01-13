@@ -19,8 +19,7 @@ const Piece = props => {
   });
 
   const handleMouseMove = ({ clientX, clientY }) => {
-    const { isDragging } = state;
-    const { draggingElement } = state;
+    const { isDragging, draggingElement } = state;
     if (isDragging) {
       draggingElement.hidden = true;
       const elemBelow = document.elementFromPoint(clientX, clientY);
@@ -66,11 +65,12 @@ const Piece = props => {
     window.removeEventListener("mouseup", handleMouseUp);
   });
 
-  const handleMouseDown = ({ clientX, clientY }) => {
+  const handleMouseDown = ({ clientX, clientY, target }) => {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
     setState(state => ({
       ...state,
+      draggingElement: target,
       isDragging: true,
       originalX: clientX,
       originalY: clientY
@@ -100,7 +100,7 @@ const Piece = props => {
       };
     }
   };
-
+  console.log(state);
   return (
     <div
       className="piece-wrapper"
