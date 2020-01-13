@@ -35,8 +35,8 @@ const Piece = props => {
 
   const handleMouseUp = () => {
     const { droppableElement, draggingElement } = state;
-    window.removeEventListener("mousemove", handleMouseMove);
-    window.removeEventListener("mouseup", handleMouseUp);
+    // window.removeEventListener("mousemove", handleMouseMove);
+    // window.removeEventListener("mouseup", this.handleMouseUp);
     if (
       droppableElement.className !== "square-wrapper" ||
       droppableElement === null
@@ -46,30 +46,55 @@ const Piece = props => {
     } else {
       droppableElement.append(draggingElement);
     }
-    setState({
-      isDragging: false,
-      isMoving: false,
-      originalX: 0,
-      originalY: 0,
-      translateX: 0,
-      translateY: 0,
-      lastTranslateY: 0,
-      lastTranslateX: 0,
-      draggingElement: null,
-      droppableElement: null
-    });
+    setState(state => ({ ...state, isDragging: false }));
+    // setState({
+    //   isDragging: false,
+    //   isMoving: false,
+    //   originalX: 0,
+    //   originalY: 0,
+    //   translateX: 0,
+    //   translateY: 0,
+    //   lastTranslateY: 0,
+    //   lastTranslateX: 0,
+    //   draggingElement: null,
+    //   droppableElement: null
+    // });
   };
 
   useEffect(() => {
-    window.removeEventListener("mousemove", handleMouseMove);
-    window.removeEventListener("mouseup", handleMouseUp);
+    // if (state.isDragging) {
+    //   window.addEventListener("mousemove", handleMouseMove);
+    //   window.addEventListener("mouseup", handleMouseUp);
+    // } else {
+    //   window.removeEventListener("mousemove", handleMouseMove);
+    //   window.removeEventListener("mouseup", handleMouseUp);
+    //   setState(state => ({
+    //     ...state,
+    //     isMoving: false,
+    //     originalX: 0,
+    //     originalY: 0,
+    //     translateX: 0,
+    //     translateY: 0,
+    //     lastTranslateY: 0,
+    //     lastTranslateX: 0,
+    //     draggingElement: null,
+    //     droppableElement: null
+    //   }));
   });
-
   const handleMouseDown = ({ clientX, clientY, target }) => {
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    // window.addEventListener("mousemove", handleMouseMove);
+    // window.addEventListener("mouseup", handleMouseUp);
+
+    target.hidden = true;
+    const elemBelow = document.elementFromPoint(clientX, clientY);
+    target.hidden = false;
+
+    console.log(elemBelow);
+    console.log(elemBelow.className);
+
     setState(state => ({
       ...state,
+      droppableElement: elemBelow,
       draggingElement: target,
       isDragging: true,
       originalX: clientX,
@@ -100,7 +125,7 @@ const Piece = props => {
       };
     }
   };
-  console.log(state, document.getElementFrm);
+  console.log(state.draggingElement);
   return (
     <div
       className="piece-wrapper"
