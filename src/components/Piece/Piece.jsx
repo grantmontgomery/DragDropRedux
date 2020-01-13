@@ -33,7 +33,7 @@ const Piece = props => {
     }
   };
 
-  const handleMouseUp = ({ clientX, clientY }) => {
+  const handleMouseUp = () => {
     const { droppableElement, draggingElement } = state;
     window.removeEventListener("mousemove", handleMouseMove);
     window.removeEventListener("mouseup", handleMouseUp);
@@ -100,7 +100,7 @@ const Piece = props => {
       };
     }
   };
-  console.log(state);
+  console.log(state, document.getElementFrm);
   return (
     <div
       className="piece-wrapper"
