@@ -4,6 +4,7 @@ import "./Piece.css";
 
 const POSITION = { x: 0, y: 0 };
 const Piece = props => {
+  const { color, value } = props;
   const [state, setState] = useState({
     isDragging: false,
     origin: POSITION,
@@ -26,34 +27,48 @@ const Piece = props => {
 
   const handleMouseMove = useCallback(
     ({ clientX, clientY, target }) => {
-      target.hidden = true;
-      const droppableElement = document.elementFromPoint(clientX, clientY);
-      target.hidden = false;
-      const translation = {
-        x: clientX - state.origin.x,
-        y: clientY - state.origin.y
-      };
+      if (state.isDragging) {
+        target.hidden = true;
+        const droppableElement = document.elementFromPoint(clientX, clientY);
+        target.hidden = false;
+        const translation = {
+          x: clientX - state.origin.x,
+          y: clientY - state.origin.y
+        };
 
-      setState(state => ({
-        ...state,
-        translation,
-        droppableElement
-      }));
+        setState(state => ({
+          ...state,
+          translation,
+          droppableElement
+        }));
+      }
     },
-    [state.origin]
+    [state.origin, state.isDragging]
   );
 
-  const handleMouseUp = useCallback(
-    ({ target }) => {
-      setState(state => ({
-        ...state,
-        isDragging: false
-      }));
-
-      onDragEnd();
-    },
-    [onDragEnd]
-  );
+  const handleMouseUp = useCallback(({ target }) => {
+    target.hidden = true;
+    const droppableElement = document.elementFromPoint(
+      state.translation.x,
+      state.translation.y
+    );
+    target.hidden = false;
+    setState({ ...state, droppableElement });
+    if (
+      droppableElement.className !== "square-wrapper" ||
+      droppableElement === null
+    ) {
+      const list = document.getElementById("list-wrapper");
+      list.append(target);
+    } else {
+      state.droppableElement.append(target);
+    }
+    setState(state => ({
+      ...state,
+      droppableElement: null,
+      isDragging: false
+    }));
+  }, []);
 
   useEffect(() => {
     if (state.isDragging) {
@@ -63,7 +78,12 @@ const Piece = props => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
 
-      setState(state => ({ ...state, translation: { x: 0, y: 0 } }));
+      setState(state => ({
+        ...state,
+        origin: POSITION,
+        translation: POSITION,
+        isDragging: false
+      }));
     }
   }, [state.isDragging, handleMouseMove, handleMouseUp]);
 
@@ -73,15 +93,18 @@ const Piece = props => {
       transform: `translate(${state.translation.x}px, ${state.translation.y}px)`,
       transition: state.isDragging ? "none" : "transform 500ms",
       zIndex: state.isDragging ? 2 : 1,
+      color,
       position: state.isDragging ? "absolute" : "relative"
     }),
     [state.isDragging, state.translation]
   );
 
   return (
-    <div className="piece-wrapper" style={styles} onMouseDown={handleMouseDown}>
-      {children}
-    </div>
+    <div
+      className="piece-wrapper"
+      style={styles}
+      onMouseDown={handleMouseDown}
+    ></div>
   );
 };
 export default Piece;
