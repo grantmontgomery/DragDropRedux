@@ -85,20 +85,24 @@ const Piece = props => {
         isDragging: false
       }));
     }
-  }, [state.isDragging, handleMouseMove, handleMouseUp]);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [state.isDragging]);
 
   const styles = useMemo(
     () => ({
       cursor: state.isDragging ? "-webkit-grabbing" : "-webkit-grab",
       transform: `translate(${state.translation.x}px, ${state.translation.y}px)`,
-      transition: state.isDragging ? "none" : "transform 500ms",
-      zIndex: state.isDragging ? 2 : 1,
-      color,
-      position: state.isDragging ? "absolute" : "relative"
+      // transition: state.isDragging ? "none" : "transform 500ms",
+      zIndex: state.isDragging ? 1000 : 1,
+      color: `${color}`
+      // position: state.isDragging ? "absolute" : "relative"
     }),
     [state.isDragging, state.translation]
   );
-
+  console.log(state.droppableElement);
   return (
     <div
       className="piece-wrapper"
