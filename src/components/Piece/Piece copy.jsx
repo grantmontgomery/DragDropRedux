@@ -97,7 +97,10 @@ const Piece = props => {
       transform: `translate(${state.translation.x}px, ${state.translation.y}px)`,
       // transition: state.isDragging ? "none" : "transform 500ms",
       zIndex: state.isDragging ? 1000 : 1,
-      color: `${color}`
+      boxShadow: state.isDragging
+        ? "0 3px 6px 1px rgba(50, 50, 50, 0.5)"
+        : "none",
+      background: `rgb${color}`
       // position: state.isDragging ? "absolute" : "relative"
     }),
     [state.isDragging, state.translation]
