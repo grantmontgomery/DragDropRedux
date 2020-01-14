@@ -27,16 +27,14 @@ const Piece = props => {
       setState(state => ({
         ...state,
         droppableElement: elemBelow,
-        translateX: clientX + state.lastTranslateX - state.originalX,
-        translateY: clientY + state.lastTranslateY - state.originalY
+        translateX: clientX - state.originalX,
+        translateY: clientY - state.originalY
       }));
     }
   };
 
   const handleMouseUp = () => {
     const { droppableElement, draggingElement } = state;
-    // window.removeEventListener("mousemove", handleMouseMove);
-    // window.removeEventListener("mouseup", this.handleMouseUp);
     if (
       droppableElement.className !== "square-wrapper" ||
       droppableElement === null
@@ -81,6 +79,22 @@ const Piece = props => {
         droppableElement: null
       }));
     }
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      setState(state => ({
+        ...state,
+        isMoving: false,
+        originalX: 0,
+        originalY: 0,
+        translateX: 0,
+        translateY: 0,
+        lastTranslateY: 0,
+        lastTranslateX: 0,
+        draggingElement: null,
+        droppableElement: null
+      }));
+    };
   }, [state.isDragging]);
   const handleMouseDown = ({ clientX, clientY, target }) => {
     // window.addEventListener("mousemove", handleMouseMove);
@@ -91,7 +105,6 @@ const Piece = props => {
     target.hidden = false;
 
     console.log(elemBelow);
-    console.log(elemBelow.className);
 
     setState({
       ...state,
@@ -103,36 +116,50 @@ const Piece = props => {
     });
   };
 
-  const isDragging = () => {
-    const { isDragging, translateX, translateY, isMoving } = state;
-    if (isDragging) {
-      return {
-        transform: `translate(${translateX}px, ${translateY}px)`,
-        cursor: "grabbing",
-        position: `${isMoving ? "absolute" : "relative"}`,
-        zIndex: 1000,
-        transition: "none",
-        boxShadow: "0 3px 6px 1px rgba(50, 50, 50, 0.5)",
-        background: `rgb${color}`
-      };
-    } else {
-      return {
-        transform: "translate(0, 0)",
-        position: "relative",
-        cursor: "grab",
-        zIndex: 1,
-        transition: "transform 500ms",
-        background: `rgb${color}`
-      };
-    }
-  };
-  console.log(state.draggingElement);
+  const styles = useMemo(
+    () => ({
+      transform: `translate(${state.translateX}px, ${state.translateY}px)`,
+      cursor: state.isDragging ? `grabbing` : `grab`,
+      position: `relative`,
+      zIndex: state.isDragging ? 2 : 1,
+      transition: state.isDragging ? `none` : `transform 500ms`,
+      boxShadow: state.isDragging
+        ? `0 3px 6px 1px rgba(50, 50, 50, 0.5)`
+        : `0 1px 1px rgba(50, 50, 50, 0.5)`,
+      background: `rgb${color}`
+    }),
+    [state.isDragging, state.translateX, state.translateY]
+  );
+
+  // const isDragging = () => {
+  //   const { isDragging, translateX, translateY } = state;
+  //   if (isDragging) {
+  //     return {
+  //       transform: `translate(${translateX}px, ${translateY}px)`,
+  //       cursor: "grabbing",
+  //       position: "relative",
+  //       zIndex: 1000,
+  //       transition: "none",
+  //       boxShadow: "0 3px 6px 1px rgba(50, 50, 50, 0.5)",
+  //       background: `rgb${color}`
+  //     };
+  //   } else {
+  //     return {
+  //       transform: "translate(0, 0)",
+  //       position: "relative",
+  //       cursor: "grab",
+  //       zIndex: 1,
+  //       transition: "transform 500ms",
+  //       background: `rgb${color}`
+  //     };
+  //   }
+  // };
   return (
     <div
       className="piece-wrapper"
       value={value}
       onMouseDown={handleMouseDown}
-      style={isDragging()}
+      style={styles}
     ></div>
   );
 };
