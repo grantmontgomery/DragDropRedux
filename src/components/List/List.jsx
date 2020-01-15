@@ -7,9 +7,7 @@ import "./List.css";
 
 const List = props => {
   const [newInput, handleChange] = useState(false);
-  const pieces = useSelector(state => state.pieceTrackerReducer).filter(
-    piece => piece.location === "list"
-  );
+  const pieces = useSelector(state => state.listTrackerReducer);
 
   const handleClick = (event, newInput) => {
     event.preventDefault();

@@ -5,7 +5,8 @@ import React, {
   useEffect,
   useRef
 } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { actions } from "../../redux";
 import "./Piece.css";
 
 const POSITION = { x: 0, y: 0 };
@@ -17,7 +18,10 @@ const Piece = props => {
     origin: POSITION,
     translation: POSITION
   });
-  const pieces = useSelector(state => state.pieceTrackerReducer);
+  const dispatch = useDispatch();
+
+  console.log(props);
+  const pieces = useSelector(state => state.listTrackerReducer);
 
   const handleMouseDown = useCallback(({ target, clientX, clientY }) => {
     target.hidden = true;
@@ -71,7 +75,7 @@ const Piece = props => {
       list.append(state.draggingElement);
     } else if (droppableElement.className === "square-wrapper") {
       droppableElement.append(state.draggingElement);
-
+      dispatch(actions.listToGrid(props.id));
       console.log("appending to a square");
     } else {
       console.log("error sensing dropped element");

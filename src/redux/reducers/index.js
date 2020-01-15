@@ -1,6 +1,7 @@
-import pieceTrackerReducer from "./pieceTrackerReducer";
+import listTrackerReducer from "./listTrackerReducer";
+
 import { combineReducers } from "redux";
 
-const allReducers = combineReducers({ pieceTrackerReducer });
+const allReducers = combineReducers({ listTrackerReducer });
 
 export default allReducers;

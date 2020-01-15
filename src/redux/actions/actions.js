@@ -21,6 +21,15 @@ const movePiece = object => {
   };
 };
 
-const actions = { addPiece, movePiece };
+const listToGrid = id => {
+  return {
+    type: "REMOVE",
+    payload: {
+      id: id
+    }
+  };
+};
+
+const actions = { addPiece, movePiece, listToGrid };
 
 export default actions;
