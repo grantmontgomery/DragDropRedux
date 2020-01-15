@@ -44,17 +44,12 @@ const Piece = props => {
           x: clientX - state.origin.x,
           y: clientY - state.origin.y
         };
-        console.log("mouse moving");
-        console.log(droppableElement);
-        console.log(state.origin);
         setState(state => ({
           ...state,
           translation,
           droppableElement
         }));
       } else {
-        console.log("mouse move end");
-        console.log(state.droppableElement);
         setState(state => ({
           ...state,
           origin: POSITION,
@@ -66,34 +61,38 @@ const Piece = props => {
     [state.origin, state.isDragging]
   );
 
-  const appendToPlace = () => {
+  const appendToPlace = droppableElement => {
     if (
-      state.droppableElement.className !== "square-wrapper" ||
-      state.droppableElement === null
+      droppableElement.className !== "square-wrapper" ||
+      droppableElement === null
     ) {
       const list = document.getElementById("list-wrapper");
       console.log("appending to list");
       list.append(state.draggingElement);
-    } else if (state.droppableElement.className === "square-wrapper") {
-      state.droppableElement.append(state.draggingElement);
+    } else if (droppableElement.className === "square-wrapper") {
+      droppableElement.append(state.draggingElement);
       console.log("appending to a square");
     } else {
       console.log("error sensing dropped element");
     }
   };
 
-  const handleMouseUp = useCallback(() => {
-    appendToPlace();
+  const handleMouseUp = useCallback(
+    ({ clientX, clientY }) => {
+      state.draggingElement.hidden = true;
 
-    console.log("DRAG    END");
-    console.log(state.droppableElement);
-    console.log(state.draggingElement);
-    console.log(state.origin);
-    setState(state => ({
-      ...state,
-      isDragging: false
-    }));
-  }, [state.isDragging]);
+      const droppableElement = document.elementFromPoint(clientX, clientY);
+      state.draggingElement.hidden = false;
+
+      appendToPlace(droppableElement);
+
+      setState(state => ({
+        ...state,
+        isDragging: false
+      }));
+    },
+    [state.isDragging]
+  );
 
   useEffect(() => {
     if (state.isDragging) {
