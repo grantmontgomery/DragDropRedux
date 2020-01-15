@@ -129,7 +129,9 @@ const Piece = props => {
   const styles = useMemo(
     () => ({
       cursor: state.isDragging ? "-webkit-grabbing" : "-webkit-grab",
-      transform: `translate(${state.translation.x}px, ${state.translation.y}px)`,
+      transform: state.isDragging
+        ? `translate(${state.translation.x}px, ${state.translation.y}px) rotate(5deg)`
+        : `translate(${state.translation.x}px, ${state.translation.y}px)`,
       zIndex: state.isDragging ? 1000 : 3,
       transition: "none",
       boxShadow: state.isDragging

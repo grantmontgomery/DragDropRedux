@@ -7,7 +7,9 @@ import "./List.css";
 
 const List = props => {
   const [newInput, handleChange] = useState(false);
-  const pieces = useSelector(state => state.pieceTrackerReducer);
+  const pieces = useSelector(state => state.pieceTrackerReducer).filter(
+    piece => piece.location === "list"
+  );
 
   const handleClick = (event, newInput) => {
     event.preventDefault();
@@ -42,16 +44,14 @@ const List = props => {
         </button>
       </div>
       <TransitionGroup>{renderNewInput(newInput)}</TransitionGroup>
-      {pieces
-        .filter(piece => piece.location === "list")
-        .map(piece => (
-          <Piece
-            key={piece.id}
-            id={piece.id}
-            color={piece.color}
-            value={piece.value}
-          ></Piece>
-        ))}
+      {pieces.map(piece => (
+        <Piece
+          key={piece.id}
+          id={piece.id}
+          color={piece.color}
+          value={piece.value}
+        ></Piece>
+      ))}
     </div>
   );
 };

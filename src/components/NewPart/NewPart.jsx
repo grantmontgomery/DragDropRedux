@@ -5,8 +5,9 @@ import { actions } from "../../redux";
 import "react-datepicker/dist/react-datepicker.css";
 import { CheckMark } from "../Icons/checkmark";
 import "./NewPart.css";
+import { useCallback } from "react";
 
-const NewPart = props => {
+const NewPart = React.memo(props => {
   let [input, handleUpdate] = useState("");
   let [color, changeFunc] = useState("(233, 53, 53)");
   const { handleClick, newInput } = props;
@@ -18,22 +19,38 @@ const NewPart = props => {
     ReactDOM.render(<CheckMark />, colorSelectors[0]);
   });
 
-  const changeColor = (event, color) => {
-    event.preventDefault();
-    const colorSelectors = document.getElementsByClassName("color-picker");
-    const { target } = event;
-    color = target.getAttribute("value");
+  // useEffect(({target}) => {
+  //   const colorSelectors = document.getElementsByClassName("color-picker");
+  //   color = target.getAttribute("value");
 
-    for (let i = 0; i < colorSelectors.length; i++) {
-      if (target === colorSelectors[i]) {
-        ReactDOM.render(<CheckMark></CheckMark>, colorSelectors[i]);
-      } else {
-        ReactDOM.unmountComponentAtNode(colorSelectors[i]);
+  //   for (let i = 0; i < colorSelectors.length; i++) {
+  //     if (target === colorSelectors[i]) {
+  //       ReactDOM.render(<CheckMark></CheckMark>, colorSelectors[i]);
+  //     } else {
+  //       ReactDOM.unmountComponentAtNode(colorSelectors[i]);
+  //     }
+  //   }
+  // }, [color])
+
+  const changeColor = useCallback(
+    (event, color) => {
+      event.preventDefault();
+      const colorSelectors = document.getElementsByClassName("color-picker");
+      const { target } = event;
+      color = target.getAttribute("value");
+
+      for (let i = 0; i < colorSelectors.length; i++) {
+        if (target === colorSelectors[i]) {
+          ReactDOM.render(<CheckMark></CheckMark>, colorSelectors[i]);
+        } else {
+          ReactDOM.unmountComponentAtNode(colorSelectors[i]);
+        }
       }
-    }
 
-    return color;
-  };
+      return color;
+    },
+    [color]
+  );
 
   const handleSubmit = (
     event,
@@ -119,6 +136,6 @@ const NewPart = props => {
       </form>
     </div>
   );
-};
+});
 
 export default NewPart;

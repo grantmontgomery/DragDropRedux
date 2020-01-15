@@ -12,39 +12,6 @@ class Grid extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   const {
-  //     startHour,
-  //     startMinutes,
-  //     startDay,
-  //     endHour,
-  //     endMinutes,
-  //     endDay
-  //   } = this.props;
-
-  //   if (endDay !== startDay) {
-  //     const dayDifference = endDay - startDay - 1;
-  //     const hourDifference =
-  //       24 -
-  //       (startHour + startMinutes) +
-  //       (endHour + endMinutes) +
-  //       dayDifference * 24;
-  //     const width = (hourDifference + 1) * 200;
-  //     const amountOfColumns = width / 100;
-  //     this.setState({
-  //       hourDifference,
-  //       numberOfSquares: amountOfColumns * 7
-  //     });
-  //   } else {
-  //     const hourDifference = endHour + endMinutes - (startHour + startMinutes);
-  //     const width = (hourDifference + 1) * 200;
-  //     const amountOfColumns = width / 100;
-  //     this.setState({
-  //       hourDifference,
-  //       numberOfSquares: amountOfColumns * 7
-  //     });
-  //   }
-  // }
   repeatString = (string, number) => {
     let newString = "";
     while (number > 0) {
@@ -155,4 +122,4 @@ class Grid extends Component {
   }
 }
 
-export default Grid;
+export default React.memo(Grid);

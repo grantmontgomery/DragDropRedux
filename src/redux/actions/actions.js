@@ -12,6 +12,15 @@ const addPiece = object => {
 
 //combined actions
 
-const actions = { addPiece };
+const movePiece = object => {
+  return {
+    type: "MOVE",
+    payload: {
+      location: object.location
+    }
+  };
+};
+
+const actions = { addPiece, movePiece };
 
 export default actions;
