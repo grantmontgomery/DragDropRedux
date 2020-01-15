@@ -43,7 +43,8 @@ const NewPart = props => {
     colorParam
   ) => {
     event.preventDefault();
-    dispatchParam(actionParam({ value: inputParam, color: colorParam }));
+    const id = Math.floor(Math.random() * Math.floor(100));
+    dispatchParam(actionParam({ value: inputParam, color: colorParam, id }));
   };
 
   return (

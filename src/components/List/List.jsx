@@ -31,6 +31,8 @@ const List = props => {
     }
   };
 
+  console.log(pieces);
+
   return (
     <div id="list-wrapper">
       <div className="list-title">
@@ -44,7 +46,8 @@ const List = props => {
         .filter(piece => piece.location === "list")
         .map(piece => (
           <Piece
-            key={Math.floor(Math.random() * Math.floor(100))}
+            key={piece.id}
+            id={piece.id}
             color={piece.color}
             value={piece.value}
           ></Piece>
