@@ -25,7 +25,6 @@ const Piece = props => {
     target.hidden = false;
     console.log("DRAG   START");
     console.log(elemBelow);
-    console.log(state.origin);
     setState(state => ({
       ...state,
       draggingElement: target,
