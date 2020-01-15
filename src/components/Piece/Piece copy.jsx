@@ -1,9 +1,16 @@
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  useRef
+} from "react";
 import { useSelector } from "react-redux";
 import "./Piece.css";
 
 const POSITION = { x: 0, y: 0 };
 const Piece = props => {
+  const renders = useRef(0);
   const { color, value } = props;
   const [state, setState] = useState({
     isDragging: false,
@@ -15,7 +22,9 @@ const Piece = props => {
     target.hidden = true;
     const elemBelow = document.elementFromPoint(clientX, clientY);
     target.hidden = false;
-
+    console.log("DRAG   START");
+    console.log(elemBelow);
+    console.log(state.origin);
     setState(state => ({
       ...state,
       draggingElement: target,
@@ -35,40 +44,56 @@ const Piece = props => {
           x: clientX - state.origin.x,
           y: clientY - state.origin.y
         };
-
+        console.log("mouse moving");
+        console.log(droppableElement);
+        console.log(state.origin);
         setState(state => ({
           ...state,
           translation,
           droppableElement
+        }));
+      } else {
+        console.log("mouse move end");
+        console.log(state.droppableElement);
+        setState(state => ({
+          ...state,
+          origin: POSITION,
+          translation: POSITION,
+          isDragging: false
         }));
       }
     },
     [state.origin, state.isDragging]
   );
 
-  const handleMouseUp = useCallback(({ target }) => {
-    target.hidden = true;
-    const droppableElement = document.elementFromPoint(
-      state.translation.x,
-      state.translation.y
-    );
-    target.hidden = false;
-    setState({ ...state, droppableElement });
+  const appendToPlace = () => {
     if (
-      droppableElement.className !== "square-wrapper" ||
-      droppableElement === null
+      state.droppableElement.className !== "square-wrapper" ||
+      state.droppableElement === null
     ) {
       const list = document.getElementById("list-wrapper");
-      list.append(target);
+      console.log("appending to list");
+      list.append(state.draggingElement);
+    } else if (state.droppableElement.className === "square-wrapper") {
+      state.droppableElement.append(state.draggingElement);
+      console.log("appending to a square");
     } else {
-      state.droppableElement.append(target);
+      console.log("error sensing dropped element");
     }
+  };
+
+  const handleMouseUp = useCallback(() => {
+    appendToPlace();
+
+    console.log("DRAG    END");
+    console.log(state.droppableElement);
+    console.log(state.draggingElement);
+    console.log(state.origin);
     setState(state => ({
       ...state,
-      droppableElement: null,
       isDragging: false
     }));
-  }, []);
+  }, [state.isDragging]);
 
   useEffect(() => {
     if (state.isDragging) {
@@ -77,7 +102,6 @@ const Piece = props => {
     } else {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
-
       setState(state => ({
         ...state,
         origin: POSITION,
@@ -104,7 +128,6 @@ const Piece = props => {
     }),
     [state.isDragging, state.translation]
   );
-  console.log(state.droppableElement);
   return (
     <div
       className="piece-wrapper"
