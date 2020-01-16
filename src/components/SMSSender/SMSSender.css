@@ -1,2 +1,14 @@
-.sms-sender {
+.sms-wrapper {
+  width: 250px;
+  margin-right: auto;
+  margin-left: auto;
+  height: 125px;
+  overflow-y: hidden;
+  box-shadow: 0 5px 6px 1px rgba(150, 150, 150, 0.5);
+  overflow: hidden;
+  z-index: 1001;
+}
+
+.sms-wrapper > form {
+  top: 50px;
 }

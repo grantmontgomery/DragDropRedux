@@ -24,17 +24,24 @@ const List = props => {
     return state;
   };
 
-  const renderSMS = SMS => {
-    if (SMS) {
+  const setSMS = (SMS, newInput) => {
+    if (SMS === true && newInput === false) {
+      return (
+        <CSSTransition key="2" timeout={300} classNames="newpart-transition">
+          <SMSSender key="2"></SMSSender>
+        </CSSTransition>
+      );
+    } else {
+      return;
     }
   };
-  const renderNewInput = state => {
-    if (state) {
+  const renderNewInput = (SMS, newInput) => {
+    if (newInput === true && SMS === false) {
       return (
         <CSSTransition key="1" timeout={300} classNames="newpart-transition">
           <NewPart
             key="1"
-            onClick={event => handleChange(renderInput(event, newInput))}
+            // onClick={event => renderInput(handleClick(event, newInput))}
             newInput={state}
           ></NewPart>
         </CSSTransition>
@@ -44,7 +51,7 @@ const List = props => {
     }
   };
 
-  console.log(state);
+  console.log(newInput, SMS);
 
   return (
     <div id="list-wrapper">
@@ -60,7 +67,8 @@ const List = props => {
           Send Schedule to Phone
         </button>
       </div>
-      <TransitionGroup>{renderNewInput(newInput)}</TransitionGroup>
+      <TransitionGroup>{renderNewInput(SMS, newInput)}</TransitionGroup>
+      <TransitionGroup>{setSMS(SMS, newInput)}</TransitionGroup>
       {pieces.map(piece => (
         <Piece
           key={piece.id}
