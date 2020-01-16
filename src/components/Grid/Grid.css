@@ -8,7 +8,7 @@
   position: absolute;
   right: 200px;
   overflow: scroll;
-  z-index: -1;
+  z-index: -2;
 }
 
 .date-header {
