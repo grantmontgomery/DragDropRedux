@@ -75,7 +75,7 @@ const Piece = props => {
       list.append(state.draggingElement);
     } else if (droppableElement.className === "square-wrapper") {
       droppableElement.append(state.draggingElement);
-      dispatch(actions.listToGrid(props.id));
+      // dispatch(actions.listToGrid(props.id));
       console.log("appending to a square");
     } else {
       console.log("error sensing dropped element");
